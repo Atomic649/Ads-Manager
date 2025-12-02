@@ -12,13 +12,16 @@ import {
 } from 'react-native';
 import { Image } from 'expo-image';
 import { Link, router } from 'expo-router';
-
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import logo from '@/assets/images/logo.png';
+import CallAPIUser from '@/api/auth_api';
+import CallMemberAPI from '@/api/member_api';
 
-const baseUrl = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
+
+
 
 export default function RegisterScreen() {
 	const colorScheme = useColorScheme();
@@ -87,41 +90,36 @@ export default function RegisterScreen() {
 		setIsSubmitting(true);
 
 		try {
-			const response = await fetch(`${baseUrl}/auth/register`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					email: email.trim(),
-					password,
-					firstName: firstName.trim(),
-					lastName: lastName.trim(),
-					avatar: null,
-					phone: phone.trim(),
-					username: username.trim() || null,
-				}),
-			});
+      // Call the register API
+      const data = await CallAPIUser.registerAPI({
+        firstName,
+        lastName,
+        phone,
+        email,
+        password,
+        username,
+      });
 
-			const payload = await response.json().catch(() => null);
+      if (data.error) throw new Error(data.error);
 
-			if (!response.ok) {
-				throw new Error(payload?.message ?? 'Unable to create account.');
-			}
+      // Automatically create Unique ID in Member Table
+      const data2 = await CallMemberAPI.createMemberAPI({
+        permission: "admin",
+        role: "owner",
+        userId: data.user.id,
+      });
 
-			Alert.alert('Account created', 'You can now sign in.', [
-				{
-					text: 'Go to login',
-					onPress: () => router.replace('/(auth)/login'),
-				},
-			]);
-		} catch (error) {
-			const message = error instanceof Error ? error.message : 'Something went wrong.';
-			setErrorMessage(message);
-		} finally {
-			setIsSubmitting(false);
-		}
-	};
+      if (data2.error) throw new Error(data2.error);
+
+	  // go to business register with params
+	  router.replace({
+		pathname: "/(tabs)",
+		params: { userId: data.user.id, uniqueId: data2.uniqueId },
+	  });
+    } catch (error: any) {
+      setError(error.message);
+    }
+  };
 
 	return (
 		<ThemedView style={styles.screen}>
@@ -132,7 +130,7 @@ export default function RegisterScreen() {
 				<ScrollView contentContainerStyle={styles.scrollContent} bounces={false}>
 					<View style={cardStyle}>
 						<Image
-							source={require('@/assets/images/logo.png')}
+							source={logo}
 							style={styles.logo}
 							contentFit="contain"
 						/>
@@ -367,3 +365,7 @@ const styles = StyleSheet.create({
 		color: '#687076',
 	},
 });
+function setError(message: any) {
+	throw new Error('Function not implemented.');
+}
+
