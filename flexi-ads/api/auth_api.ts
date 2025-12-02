@@ -9,6 +9,8 @@ class CallAPIUser {
   async registerAPI(data: {
     firstName: string;
     lastName: string;
+    businessType: string;
+    businessName: string;
     phone: string;
     email: string;
     password: string;
