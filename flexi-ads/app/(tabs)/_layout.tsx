@@ -4,6 +4,8 @@ import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -23,19 +25,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="BoostDashboardScreen"
+        name="ProductListScreen"
         options={{
-          title: 'Boost Dashboard',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="bolt.fill" color={color} />,
+          title: 'Ads',
+          tabBarIcon: ({ color }) => <FontAwesome6 name="square-poll-horizontal" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="ProductListScreen"
+        name="BoostDashboardScreen"
         options={{
-          title: 'Products',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="cube.box.fill" color={color} />,
+          title: 'Boost Ads',
+          tabBarIcon: ({ color }) => <FontAwesome name="rocket" size={24} color={color} />,
         }}
       />
+      
     </Tabs>
   );
 }
