@@ -4,15 +4,17 @@ import { TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native';
 type ButtonProps = {
   title: string;
   onPress?: () => void;
-  variant?: 'primary' | 'accent' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost';
   style?: ViewStyle;
 };
 
 const COLORS = {
-  primary: '#1ABCAC',
-  accent: '#F6C445',
+  primary: '#28ddb0',
+  secondary: '#e2e2e0',
+  accent: '#f65828ee',
   textOnPrimary: '#FFFFFF',
   textOnAccent: '#1F2937',
+  textOnSecondary: '#1F2937',
 };
 
 export const Button: React.FC<ButtonProps> = ({ title, onPress, variant = 'primary', style }) => {
@@ -20,12 +22,13 @@ export const Button: React.FC<ButtonProps> = ({ title, onPress, variant = 'prima
   const colorStyle =
     variant === 'primary'
       ? { backgroundColor: COLORS.primary }
+      : variant === 'secondary'
+      ? { backgroundColor: COLORS.secondary }
       : variant === 'accent'
       ? { backgroundColor: COLORS.accent }
       : { backgroundColor: 'transparent', borderWidth: 1, borderColor: '#E5E7EB' };
   const textStyle =
-    variant === 'primary' ? styles.textPrimary : variant === 'accent' ? styles.textAccent : styles.textGhost;
-
+    variant === 'primary' ? styles.textPrimary : variant === 'secondary' ? styles.textSecondary : variant === 'accent' ? styles.textAccent : styles.textGhost;
   return (
     <TouchableOpacity style={[...base, colorStyle]} onPress={onPress} activeOpacity={0.85}>
       <Text style={textStyle}>{title}</Text>
