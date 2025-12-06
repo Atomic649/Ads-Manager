@@ -2,6 +2,7 @@ import { Redirect } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { LogBox } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getBusinessId, getMemberId, getUserId } from "@/utils/utility";
 
 export default function Index() {
   // State สำหรับเก็บสถานะ login และการโหลดข้อมูล
@@ -16,6 +17,9 @@ export default function Index() {
         // console.log('isLoggedIn:', isLoggedIn);
         if (isLoggedIn === "true") {
           setIsLoggedIn(true);
+          getMemberId(); // เรียกใช้ฟังก์ชัน getMemberId เมื่อผู้ใช้ล็อกอินแล้ว
+          getBusinessId(); // เรียกใช้ฟังก์ชัน getBusinessId เมื่อผู้ใช้ล็อกอินแล้ว
+          getUserId(); // เรียกใช้ฟังก์ชัน getUserId เมื่อผู้ใช้ล็อกอินแล้ว
         }
       } catch (error) {
         console.error("Failed to check login status:", error);
@@ -32,5 +36,5 @@ export default function Index() {
 
   LogBox.ignoreAllLogs();
 
-  return isLoggedIn ? <Redirect href="/createAds" /> : <Redirect href="/(auth)/login" />;
+  return isLoggedIn ? <Redirect href="/(tabs)/ProductListScreen" /> : <Redirect href="/(auth)/login" />;
 }

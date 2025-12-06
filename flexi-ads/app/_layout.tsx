@@ -6,7 +6,6 @@ import {
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
-
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export const unstable_settings = {
@@ -21,10 +20,10 @@ export default function RootLayout() {
       <Stack initialRouteName="(auth)">
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(index)" options={{ headerShown: false }} />
         <Stack.Screen
-          name="createAds"
-          options={{ presentation: "modal", title: "Create Ads" }}
+          name="ProductListScreen"
+          options={{ presentation: "modal", title: "ProductListScreen" }}
         />
       </Stack>
       <StatusBar style="auto" />
