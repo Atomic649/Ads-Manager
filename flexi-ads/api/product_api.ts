@@ -20,7 +20,8 @@ class CallAPIProduct {
       return { message: "No Network Connection" };
     }
     try {
-      const response = await getAxiosWithAuth().post("/product/create", data);
+      const axiosAuth = await getAxiosWithAuth();
+      const response = await axiosAuth.post("/product/create", data);
 
       console.log("📝Product Create API:", response.data);
       return response.data;
@@ -41,7 +42,8 @@ class CallAPIProduct {
       return { message: "No Network Connection" };
     }
     try {
-      const response = await getAxios().get(`/product/${productId}`);
+      const axiosClient = getAxios();
+      const response = await axiosClient.get(`/product/${productId}`);
 
       console.log("📝Get Product By ID API:", response.data);
       return response.data;
@@ -64,7 +66,8 @@ class CallAPIProduct {
       return { message: "No Network Connection" };
     }
     try {
-      const response = await getAxios().get(`/product/lists/${businessId}`);
+      const axiosClient = getAxios();
+      const response = await axiosClient.get(`/product/lists/${businessId}`);
 
       console.log("📝Get Product List by Business ID API:", response.data);
       return response.data;
@@ -87,7 +90,8 @@ class CallAPIProduct {
       return { message: "No Network Connection" };
     }
     try {
-      const response = await getAxios().get(`/product/lists/${businessId}`, { params: { q } });
+      const axiosClient = getAxios();
+      const response = await axiosClient.get(`/product/lists/${businessId}`, { params: { q } });
 
       console.log("📝Search Product List by Business ID API:", response.data);
       return response.data;
@@ -110,7 +114,8 @@ class CallAPIProduct {
       return { message: "No Network Connection" };
     }
     try {
-      const response = await getAxiosWithAuth().delete(`/product/${productId}`);
+      const axiosAuth = await getAxiosWithAuth();
+      const response = await axiosAuth.delete(`/product/${productId}`);
 
       console.log("📝Delete Product API:", response.data);
       return response.data;

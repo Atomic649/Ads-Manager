@@ -81,12 +81,15 @@ export default function LoginScreen() {
 
       // Save token and user details
       await saveToken(response.token);
+      await saveMemberId(String(response.user.memberId));
+      await saveBusinessId(response.user.businessId);
+      await saveUserId(response.user.id);
       await AsyncStorage.setItem("isLoggedIn", "true");
       if (response.user?.id != null) await saveUserId(response.user.id);
       if (response.user?.memberId != null) await saveMemberId(String(response.user.memberId));
       if (response.user?.businessId != null) await saveBusinessId(response.user.businessId);
 
-      router.replace("/createAds");
+      router.replace("/createProduct");
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Something went wrong.";
